@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  :root {
+    --white: #fff;
+    --dark-blue: #2a0e6b;
+    --blue: #5682df;
+    --background: #f0f0f5;
+    --background-card: #fcfcfc;
+    --background-transparent: rgba(0, 0, 0, 0.7);
+    --line: #f1f1f1;
+    --light-gray: #ddd;
+    --mid-gray: #ababab;
+    --dark-gray: #7e777f;
+    --green: #3dea59;
+    --purple: #a956df;
+  }
+  
+  html {
+    font-size: 62.5%;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  body {
+    width: min(90vw, 980px);
+    margin: auto;
+    background: var(--background);
+  }
+  
+  button {
+    cursor: pointer;
+  }
+
+  a {
+    text-decoration: none;
+    text-transform: capitalize;
+  
+    font-size: 1.5rem;
+  
+    padding: 1rem;
+  
+    color: var(--dark-gray);
+  }
