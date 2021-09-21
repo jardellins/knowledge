@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import { FormatListNumbered } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 import chooseImage from "../../assets/images/choose.svg";
 
 import "./styles.css";
 
 const Home = () => {
+  const [amount, setAmount] = useState<number>();
+
   return (
     <>
       <header>
@@ -15,7 +19,6 @@ const Home = () => {
 
       <main>
         <div className="container">
-
           <div>
             <div className="info-card">
               <div className="information">
@@ -35,15 +38,27 @@ const Home = () => {
                   Please inform how many questions do you want to answer?
                 </label>
                 <div className="input">
-                  <input id="amount" type="number" />
-                  <button>Confirm</button>
+                  <input
+                    id="amount"
+                    type="number"
+                    onChange={(e) => setAmount(Number(e.target.value))}
+                  />
+
+                  <Link to={amount ? "/questions" : "#"}>
+                    <button
+                      disabled={!amount}
+                      className={!amount ? "disabled" : ""}
+                    >
+                      Confirm
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
 
           <div>
-              <img src={chooseImage} alt="Choose options" />
+            <img src={chooseImage} alt="Choose options" />
           </div>
         </div>
       </main>
