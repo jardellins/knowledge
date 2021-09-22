@@ -1,94 +1,150 @@
-import React, { useState } from "react";
+import { Check } from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
 
 import "./styles.css";
 
-const Questions = () => {
-  const [check, setCheck] = useState<string>("");
-  const [answer, setAnswer] = useState<string>("");
+type ResultsProps = {
+  category: string;
+  type: string;
+  difficulty: string;
+  question: string;
+  correct_answer: string;
+  incorrect_answers: string[];
+};
 
-  const handleCheckbox = (name: string) => {
-    if (answer === name) {
+const Questions = () => {
+  const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+  const [allQuestionsArray, setAllQuestionsArray] = useState<string[]>([]);
+  const [sortArray, setSortArray] = useState<string[]>([]);
+  const [answers, setAnswers] = useState<string[]>([]);
+  const [check, setCheck] = useState<string>("");
+
+  const questions: ResultsProps[] = [
+    {
+      category: "Geography",
+      type: "boolean",
+      difficulty: "medium",
+      question:
+        "The longest place named in the United States is Lake Chargoggagoggmanchauggagoggchaubunagungamaugg, located near Webster, MA.",
+      correct_answer: "True",
+      incorrect_answers: ["False"],
+    },
+    {
+      category: "Entertainment: Film",
+      type: "multiple",
+      difficulty: "medium",
+      question:
+        "Which animated film did Steven Lisberger direct in 1980 before going on to direct Tron?",
+      correct_answer: "Animalympics",
+      incorrect_answers: [
+        "The Fox and the Hound",
+        "The Black Cauldron",
+        "The Great Mouse Detecive",
+      ],
+    },
+    {
+      category: "Entertainment: Video Games",
+      type: "multiple",
+      difficulty: "medium",
+      question: "What is the mod &quot;Cry of Fear&quot; based off of?",
+      correct_answer: "Half-Life",
+      incorrect_answers: [
+        "Counter Strike: Source",
+        "Half-Life 2",
+        "It&#039;s a stand alone game, not a mod",
+      ],
+    },
+  ];
+
+  useEffect(() => {
+    setAllQuestionsArray((prev) => [
+      ...prev,
+      questions[currentQuestion].correct_answer,
+    ]);
+
+    questions[currentQuestion].incorrect_answers.map((incorrect) =>
+      setAllQuestionsArray((prev) => [...prev, incorrect])
+    );
+  }, [currentQuestion]);
+
+  useEffect(() => {
+    const newSortArray = allQuestionsArray.sort()
+
+    setSortArray(newSortArray)
+  }, [allQuestionsArray])
+
+  useEffect(() => {
+    const newArray = answers;
+
+    newArray[currentQuestion] = check;
+
+    setAnswers(newArray);
+  }, [check]);
+
+
+  const handleCheckbox = (answer: string) => {
+    if (check === answer) {
       setCheck("");
-      setAnswer("");
 
       return;
     }
-    setCheck(name);
-    setAnswer(name);
+
+    setCheck(answer);
   };
+
+  const handleNextQuestion = () => {
+    if (currentQuestion + 1 > questions.length || !check) {
+      return;
+    }
+
+    setCurrentQuestion(currentQuestion + 1);
+    setAllQuestionsArray([]);
+    setCheck("");
+  };
+
   return (
-    <div>
+    <div className="questions">
       <h1>Questions</h1>
 
-      <div>
-        <div>
-          <h5>1- question</h5>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem
-            asperiores cupiditate dolorem adipisci qui perspiciatis quis
-            similique reprehenderit? Voluptatibus quis quam esse officia
-            expedita in perspiciatis reprehenderit labore illo nostrum.
-          </p>
-          <input
-            type="checkbox"
-            value="first"
-            name="first"
-            checked={check === "first"}
-            onChange={() => handleCheckbox("first")}
-          />
-          <input
-            type="checkbox"
-            value="second"
-            name="second"
-            checked={check === "second"}
-            onChange={() => handleCheckbox("second")}
-          />
-          <input
-            type="checkbox"
-            value="third"
-            name="third"
-            checked={check === "third"}
-            onChange={() => handleCheckbox("third")}
-          />
+      <div className="card-question">
+        <h5>
+          {currentQuestion + 1} {questions[currentQuestion].question}
+        </h5>
+
+        <div className="content-question">
+          {sortArray.map((question, index) => {
+            return (
+              <div className="input-question" key={index}>
+                <input
+                  value={question}
+                  type="radio"
+                  name={question}
+                  checked={check === question}
+                  onChange={() => handleCheckbox(question)}
+                />
+                <label>{question}</label>
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      <div>
-        <div>
-          <h5>2- question</h5>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem
-            asperiores cupiditate dolorem adipisci qui perspiciatis quis
-            similique reprehenderit? Voluptatibus quis quam esse officia
-            expedita in perspiciatis reprehenderit labore illo nostrum.
-          </p>
-          <input
-            type="checkbox"
-            value="second"
-            name="second"
-            checked={check === "second"}
-            onChange={() => handleCheckbox("second")}
-          />
-        </div>
-      </div>
-
-      <div>
-        <div>
-          <h5>1- question</h5>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem
-            asperiores cupiditate dolorem adipisci qui perspiciatis quis
-            similique reprehenderit? Voluptatibus quis quam esse officia
-            expedita in perspiciatis reprehenderit labore illo nostrum.
-          </p>
-          <input
-            type="checkbox"
-            value="third"
-            name="third"
-            checked={check === "third"}
-            onChange={() => handleCheckbox("third")}
-          />
-        </div>
+      <div className="next">
+        {currentQuestion + 1 >= questions.length ? (
+          <button
+            className={!check ? "disabled" : ""}
+            // onClick={handleNextQuestion}
+          >
+            Finished
+          </button>
+        ) : (
+          <button
+            className={!check ? "disabled" : ""}
+            onClick={handleNextQuestion}
+          >
+            Next Question
+          </button>
+        )}
       </div>
     </div>
   );

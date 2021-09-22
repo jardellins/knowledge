@@ -1,0 +1,68 @@
+.questions > h1 {
+  font-size: 5rem;
+  font-family: "Lobster", sans-serif;
+
+  margin: 5rem 0;
+
+  text-align: center;
+
+  color: var(--dark-blue);
+}
+
+.card-question {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  width: 100%;
+  height: 100%;
+
+  margin-bottom: 5rem;
+  padding: 2rem;
+
+  border-radius: 0.8rem;
+
+  background: var(--background-card);
+}
+
+.card-question > h5 {
+  font-size: 1.7rem;
+
+  text-align: start;
+
+  margin-bottom: 2rem;
+
+  color: var(--dark-blue);
+}
+
+.input-question {
+  padding: 1rem 0;
+}
+
+.input-question > label {
+  font-size: 1.5rem;
+
+  margin-left: 1rem;
+
+  color: var(--dark-gray);
+}
+
+.next {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.next > button {
+  font-size: 1.7rem;
+  font-weight: bolder;
+
+  padding: 2rem 3rem;
+
+  border: none;
+  border-radius: 0.8rem;
+
+  color: var(--white);
+  background: var(--green);
+}
