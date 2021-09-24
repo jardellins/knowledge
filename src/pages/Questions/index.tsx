@@ -1,105 +1,28 @@
-import { Check } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useHistory } from "react-router";
+
+import { UseData } from "../../context/UseQuestions";
 
 import "./styles.css";
 
-type ResultsProps = {
-  category: string;
-  type: string;
-  difficulty: string;
-  question: string;
-  correct_answer: string;
-  incorrect_answers: string[];
-};
-
 const Questions = () => {
-  const [currentQuestion, setCurrentQuestion] = useState<number>(0);
-  const [allQuestionsArray, setAllQuestionsArray] = useState<string[]>([]);
-  const [sortArray, setSortArray] = useState<string[]>([]);
-  const [answers, setAnswers] = useState<string[]>([]);
-  const [check, setCheck] = useState<string>("");
+  const { context } = UseData();
+  const {
+    amount,
+    check,
+    sortArray,
+    currentQuestion,
+    challenge,
+    handleCheckbox,
+    handleQuestion,
+  } = context;
 
-  const questions: ResultsProps[] = [
-    {
-      category: "Geography",
-      type: "boolean",
-      difficulty: "medium",
-      question:
-        "The longest place named in the United States is Lake Chargoggagoggmanchauggagoggchaubunagungamaugg, located near Webster, MA.",
-      correct_answer: "True",
-      incorrect_answers: ["False"],
-    },
-    {
-      category: "Entertainment: Film",
-      type: "multiple",
-      difficulty: "medium",
-      question:
-        "Which animated film did Steven Lisberger direct in 1980 before going on to direct Tron?",
-      correct_answer: "Animalympics",
-      incorrect_answers: [
-        "The Fox and the Hound",
-        "The Black Cauldron",
-        "The Great Mouse Detecive",
-      ],
-    },
-    {
-      category: "Entertainment: Video Games",
-      type: "multiple",
-      difficulty: "medium",
-      question: "What is the mod &quot;Cry of Fear&quot; based off of?",
-      correct_answer: "Half-Life",
-      incorrect_answers: [
-        "Counter Strike: Source",
-        "Half-Life 2",
-        "It&#039;s a stand alone game, not a mod",
-      ],
-    },
-  ];
+  const history = useHistory();
 
-  useEffect(() => {
-    setAllQuestionsArray((prev) => [
-      ...prev,
-      questions[currentQuestion].correct_answer,
-    ]);
+  const handleFinished = () => {
+    handleQuestion();
 
-    questions[currentQuestion].incorrect_answers.map((incorrect) =>
-      setAllQuestionsArray((prev) => [...prev, incorrect])
-    );
-  }, [currentQuestion]);
-
-  useEffect(() => {
-    const newSortArray = allQuestionsArray.sort()
-
-    setSortArray(newSortArray)
-  }, [allQuestionsArray])
-
-  useEffect(() => {
-    const newArray = answers;
-
-    newArray[currentQuestion] = check;
-
-    setAnswers(newArray);
-  }, [check]);
-
-
-  const handleCheckbox = (answer: string) => {
-    if (check === answer) {
-      setCheck("");
-
-      return;
-    }
-
-    setCheck(answer);
-  };
-
-  const handleNextQuestion = () => {
-    if (currentQuestion + 1 > questions.length || !check) {
-      return;
-    }
-
-    setCurrentQuestion(currentQuestion + 1);
-    setAllQuestionsArray([]);
-    setCheck("");
+    history.push("/result");
   };
 
   return (
@@ -108,7 +31,7 @@ const Questions = () => {
 
       <div className="card-question">
         <h5>
-          {currentQuestion + 1} {questions[currentQuestion].question}
+          {currentQuestion + 1}- {challenge[currentQuestion].question}
         </h5>
 
         <div className="content-question">
@@ -130,17 +53,14 @@ const Questions = () => {
       </div>
 
       <div className="next">
-        {currentQuestion + 1 >= questions.length ? (
-          <button
-            className={!check ? "disabled" : ""}
-            // onClick={handleNextQuestion}
-          >
+        {currentQuestion + 1 >= amount ? (
+          <button className={!check ? "disabled" : ""} onClick={handleFinished}>
             Finished
           </button>
         ) : (
           <button
             className={!check ? "disabled" : ""}
-            onClick={handleNextQuestion}
+            onClick={() => handleQuestion()}
           >
             Next Question
           </button>

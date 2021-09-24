@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormatListNumbered } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import chooseImage from "../../assets/images/choose.svg";
 
@@ -8,6 +8,16 @@ import "./styles.css";
 
 const Home = () => {
   const [amount, setAmount] = useState<number>();
+
+  const history = useHistory()
+
+
+  const handleChallenge = () =>{
+    if(!amount) {
+      return
+    }
+    history.push("/questions")
+  }
 
   return (
     <>
@@ -41,17 +51,17 @@ const Home = () => {
                   <input
                     id="amount"
                     type="number"
+                    min={0}
                     onChange={(e) => setAmount(Number(e.target.value))}
                   />
 
-                  <Link to={amount ? "/questions" : "#"}>
                     <button
                       disabled={!amount}
                       className={!amount ? "disabled" : ""}
+                      onClick={handleChallenge}
                     >
                       Confirm
                     </button>
-                  </Link>
                 </div>
               </div>
             </div>
