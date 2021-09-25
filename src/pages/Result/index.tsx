@@ -1,14 +1,32 @@
-import React from 'react';
-import { UseData } from '../../context/UseQuestions';
+import React from "react";
+import Card from "../../components/Card";
+import { UseData } from "../../context/UseQuestions";
 
-import './styles.css';
+import "./styles.css";
 
 const Result = () => {
-  const {context} = UseData()
-  const {questionsAnswered} = context
+  const { context } = UseData();
+  const { allQuestions, pick, correctAnswers } = context;
 
-  console.log(questionsAnswered)
-  return <div />;
-}
+  return (
+    <div>
+      <h1>Result</h1>
+      <p>You have answer correct {correctAnswers} questions</p>
+      <div>
+        {allQuestions.map((challenge, index) => {
+          return (
+            <Card
+              key={index}
+              position={index}
+              challenge={challenge}
+              choose={pick[index]}
+              readOnly
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 export default Result;

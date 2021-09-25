@@ -79,11 +79,26 @@ header > div {
 .input {
   display: flex;
   align-items: center;
+
+  border: 1px solid var(--green);
+  border-radius: 0.8rem;
+
+  padding-left: 1rem;
+
+  background: var(--white);
+}
+
+.input > svg {
+  font-size: 3rem;
+  color: var(--dark-gray);
+}
+
+.filled > svg {
+  color: var(--green);
 }
 
 .input input {
-  border: 1px solid var(--green);
-  border-radius: 0.8rem 0 0 0.8rem;
+  border: none;
 
   font-size: 1.7rem;
   font-weight: bold;
@@ -93,7 +108,10 @@ header > div {
   outline: none;
 
   color: var(--dark-gray);
-  background: var(--white);
+}
+
+.filled > input {
+  color: var(--green);
 }
 
 .input > a {

@@ -1,0 +1,57 @@
+.card-question {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  width: 100%;
+  height: 100%;
+
+  margin-bottom: 5rem;
+  padding: 2rem;
+
+  border-radius: 0.8rem;
+
+  background: var(--background-card);
+}
+
+.card-question > h5 {
+  font-size: 1.7rem;
+
+  text-align: start;
+
+  margin-bottom: 2rem;
+
+  color: var(--dark-blue);
+}
+
+.input-question {
+  padding: 1rem 0;
+}
+
+.input-question > label {
+  font-size: 1.5rem;
+
+  margin-left: 1rem;
+
+  color: var(--dark-gray);
+}
+
+.input-question > svg {
+  font-size: 1.7rem;
+  margin-left: 1rem;
+}
+
+#correct {
+  color: var(--correct-answer);
+  opacity: 1;
+  font-size: 1.7rem;
+}
+
+.fadeUp {
+  font-size: 1.7rem;
+}
+
+.fadeOut {
+  opacity: 0.5;
+}

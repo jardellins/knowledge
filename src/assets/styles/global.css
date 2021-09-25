@@ -17,6 +17,8 @@
     --dark-gray: #7e777f;
     --green: #3dea59;
     --purple: #a956df;
+    --wrong-answer: #ff0000;
+    --correct-answer: #009c19
   }
   
   html {

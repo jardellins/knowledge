@@ -2,20 +2,13 @@ import React from "react";
 import { useHistory } from "react-router";
 
 import { UseData } from "../../context/UseQuestions";
+import Card from "../../components/Card";
 
 import "./styles.css";
 
 const Questions = () => {
   const { context } = UseData();
-  const {
-    amount,
-    check,
-    sortArray,
-    currentQuestion,
-    challenge,
-    handleCheckbox,
-    handleQuestion,
-  } = context;
+  const { amount, showChallenge, currentQuestion, check, handleQuestion } = context;
 
   const history = useHistory();
 
@@ -26,47 +19,37 @@ const Questions = () => {
   };
 
   return (
-    <div className="questions">
-      <h1>Questions</h1>
+    <>
+      {Object.keys(showChallenge).length > 0 && (
+        <div className="questions">
+          <h1>Questions</h1>
 
-      <div className="card-question">
-        <h5>
-          {currentQuestion + 1}- {challenge[currentQuestion].question}
-        </h5>
+          <Card
+            challenge={showChallenge}
+            position={currentQuestion}
+            check={check}
+          />
 
-        <div className="content-question">
-          {sortArray.map((question, index) => {
-            return (
-              <div className="input-question" key={index}>
-                <input
-                  value={question}
-                  type="radio"
-                  name={question}
-                  checked={check === question}
-                  onChange={() => handleCheckbox(question)}
-                />
-                <label>{question}</label>
-              </div>
-            );
-          })}
+          <div className="next">
+            {currentQuestion + 1 >= amount ? (
+              <button
+                className={!check ? "disabled" : ""}
+                onClick={handleFinished}
+              >
+                Finished
+              </button>
+            ) : (
+              <button
+                className={!check ? "disabled" : ""}
+                onClick={() => handleQuestion()}
+              >
+                Next Question
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-
-      <div className="next">
-        {currentQuestion + 1 >= amount ? (
-          <button className={!check ? "disabled" : ""} onClick={handleFinished}>
-            Finished
-          </button>
-        ) : (
-          <button
-            className={!check ? "disabled" : ""}
-            onClick={() => handleQuestion()}
-          >
-            Next Question
-          </button>
-        )}
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

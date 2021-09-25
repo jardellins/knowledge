@@ -1,23 +1,28 @@
 import React, { useState } from "react";
-import { FormatListNumbered } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
+import { FormatListNumbered } from "@material-ui/icons";
 
 import chooseImage from "../../assets/images/choose.svg";
 
 import "./styles.css";
+import { UseData } from "../../context/UseQuestions";
 
 const Home = () => {
-  const [amount, setAmount] = useState<number>();
+  const { context } = UseData();
+  const { handleSetAmount } = context;
 
-  const history = useHistory()
+  const [getAmount, setGetAmount] = useState<number>();
 
+  const history = useHistory();
 
-  const handleChallenge = () =>{
-    if(!amount) {
-      return
+  const handleChallenge = () => {
+    if (!getAmount) {
+      return;
     }
-    history.push("/questions")
-  }
+    handleSetAmount(getAmount);
+
+    history.push("/questions");
+  };
 
   return (
     <>
@@ -47,21 +52,22 @@ const Home = () => {
                 <label htmlFor="amount">
                   Please inform how many questions do you want to answer?
                 </label>
-                <div className="input">
+                <div className={getAmount ? "input filled" : "input"}>
+                  <FormatListNumbered />
                   <input
                     id="amount"
                     type="number"
                     min={0}
-                    onChange={(e) => setAmount(Number(e.target.value))}
+                    onChange={(e) => setGetAmount(Number(e.target.value))}
                   />
 
-                    <button
-                      disabled={!amount}
-                      className={!amount ? "disabled" : ""}
-                      onClick={handleChallenge}
-                    >
-                      Confirm
-                    </button>
+                  <button
+                    disabled={!getAmount}
+                    className={!getAmount ? "disabled" : ""}
+                    onClick={handleChallenge}
+                  >
+                    Confirm
+                  </button>
                 </div>
               </div>
             </div>

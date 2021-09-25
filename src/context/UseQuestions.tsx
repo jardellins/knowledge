@@ -1,18 +1,24 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
-import { ChallengeProps, QuestionAnsweredProps } from "../dtos/answered/questionAnsweredDTO";
+import {
+  AnswersProps,
+  ChallengeProps,
+  QuestionsProps,
+} from "../dtos/answered/questionAnsweredDTO";
 
 import { ChildrenProps } from "../dtos/questions/childrenDTO";
 import validateAnswers from "../helpers/validateAnswers";
 
 type ContextQuestionsProps = {
   amount: number;
-  check: string;
+  check: AnswersProps;
+  pick: AnswersProps[]
   currentQuestion: number;
-  challenge: ChallengeProps[]
-  sortArray: string[];
-  questionsAnswered: QuestionAnsweredProps[];
+  challenge: ChallengeProps[];
+  correctAnswers: number;
+  showChallenge: QuestionsProps;
+  allQuestions: QuestionsProps[];
   handleSetAmount: (e: number) => void;
-  handleCheckbox: (e: string) => void;
+  handleCheckbox: (e: AnswersProps) => void;
   handleQuestion: () => void;
 };
 
@@ -22,17 +28,15 @@ const UseQuestionsContext = createContext<ContextQuestionsProps>(
 
 export const UseQuestionsProvider = ({ children }: ChildrenProps) => {
   const [amount, setAmount] = useState<number>(0);
+  const [currentQuestion, setCurrentQuestion] = useState<number>(-1);
+  const [showChallenge, setShowChallenge] = useState<QuestionsProps>({} as QuestionsProps);
+  const [correctAnswers, setCorrectAnswers] = useState<number>(0)
+  const [allQuestions, setAllQuestions] = useState<QuestionsProps[]>([]);
+  const [challenge, setChallenge] = useState<ChallengeProps[]>([]);
+  const [check, setCheck] = useState<AnswersProps>({} as AnswersProps);
+  const [pick, setPick] = useState<AnswersProps[]>([]);
 
-  const [currentQuestion, setCurrentQuestion] = useState<number>(0);
-  const [allQuestionsArray, setAllQuestionsArray] = useState<string[]>([]);
-  const [sortArray, setSortArray] = useState<string[]>([]);
-  const [answers, setAnswers] = useState<string[]>([]);
-  const [check, setCheck] = useState<string>("");
-  const [questionsAnswered, setQuestionsAnswered] = useState<
-    QuestionAnsweredProps[]
-  >([]);
-
-  const challenge: ChallengeProps[] = [
+  const challengeAPI: ChallengeProps[] = [
     {
       category: "Geography",
       type: "boolean",
@@ -70,78 +74,109 @@ export const UseQuestionsProvider = ({ children }: ChildrenProps) => {
   ];
 
   useEffect(() => {
-    setCurrentQuestion(0)
-  },[])
+    if (!amount) {
+      return;
+    }
+
+    setChallenge(challengeAPI);
+    setCurrentQuestion(0);
+  }, [amount]);
 
   useEffect(() => {
-    if(currentQuestion + 1 >= amount) {
-      return
+    if (currentQuestion < 0) {
+      return;
     }
-    setAllQuestionsArray((prev) => [
-      ...prev,
-      challenge[currentQuestion].correct_answer,
-    ]);
 
-    challenge[currentQuestion].incorrect_answers.map((incorrect) =>
-      setAllQuestionsArray((prev) => [...prev, incorrect])
-    );
+    const currentData = challenge[currentQuestion];
+    const answers = currentData.incorrect_answers.concat(currentData.correct_answer);
+
+    const correctAnswer = answers.map((data) => {
+      if (data === currentData.correct_answer) {
+        return {
+          answer: data,
+          correct: true,
+        };
+      } else {
+        return {
+          answer: data,
+          correct: false,
+        };
+      }
+    });
+
+    const question = {
+      question: currentData.question,
+      answers: correctAnswer,
+    };
+
+    setShowChallenge(question);
+    setAllQuestions(prev => [...prev, question])
   }, [currentQuestion]);
 
   useEffect(() => {
-    const newSortArray = allQuestionsArray.sort();
+    if (currentQuestion < 0) {
+      return;
+    }
 
-    setSortArray(newSortArray);
-  }, [allQuestionsArray]);
-
-  useEffect(() => {
-    const newArray = answers;
-
+    const newArray = pick;
     newArray[currentQuestion] = check;
 
-    setAnswers(newArray);
+    setPick(newArray);
   }, [check]);
+
+  useEffect(() => {
+    // if(pick.length <= 0){
+    //   return
+    // }
+
+    let count = 0
+    
+    console.log("passou");
+    pick.map(answer => {
+      if(answer.correct === true) {
+        count++
+      }
+    })
+    setCorrectAnswers(count)
+  }, [pick])
+
 
   const handleSetAmount = (data: number) => {
     if (!data) {
       return;
     }
-
     setAmount(data);
   };
 
-  const handleCheckbox = (answer: string) => {
-    if (check === answer) {
-      setCheck("");
-
+  const handleCheckbox = (answer: AnswersProps) => {
+    if (check.answer === answer.answer) {
+      setCheck({} as AnswersProps);
       return;
     }
-
     setCheck(answer);
   };
 
   const handleQuestion = () => {
-    if (!check) {
+    if (!check || currentQuestion + 1 >= amount) {
+      setCheck({} as AnswersProps);
       return;
     }
-
-    const answeredQuestion = validateAnswers({answers, challenge, sortArray, positionArray: currentQuestion})
-
-    setQuestionsAnswered((prev) => [...prev, answeredQuestion]);
-
     setCurrentQuestion(currentQuestion + 1);
-    setAllQuestionsArray([]);
-    setCheck("");
-  }
+    setCheck({} as AnswersProps);
+  };
+
 
   return (
     <UseQuestionsContext.Provider
       value={{
         amount,
         check,
+        pick,
         currentQuestion,
         challenge,
-        sortArray,
-        questionsAnswered,
+        correctAnswers,
+        showChallenge,
+        allQuestions,
         handleSetAmount,
         handleCheckbox,
         handleQuestion,

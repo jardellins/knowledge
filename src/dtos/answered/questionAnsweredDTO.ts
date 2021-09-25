@@ -10,10 +10,9 @@ export type ChallengeProps = {
 export type AnswersProps = {
   answer: string;
   correct: boolean;
-  answer_question: "correct" | "wrong" | undefined;
 };
 
-export type QuestionAnsweredProps = {
+export type QuestionsProps = {
   question: string;
   answers: AnswersProps[];
 };
