@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FormatListNumbered } from "@material-ui/icons";
 
 import chooseImage from "../../assets/images/choose.svg";
+import { UseData } from "../../context/UseQuestions";
 
 import "./styles.css";
-import { UseData } from "../../context/UseQuestions";
 
 const Home = () => {
   const { context } = UseData();
@@ -28,7 +28,7 @@ const Home = () => {
     <>
       <header>
         <div>
-          <a href="#">finished challenges</a>
+          <Link to="finished">finished challenges</Link>
         </div>
       </header>
 

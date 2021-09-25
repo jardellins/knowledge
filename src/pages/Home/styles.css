@@ -80,7 +80,6 @@ header > div {
   display: flex;
   align-items: center;
 
-  border: 1px solid var(--green);
   border-radius: 0.8rem;
 
   padding-left: 1rem;

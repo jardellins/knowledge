@@ -1,33 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import Card from "../../components/Card";
 import { COLLECTION_CHALLENGES } from "../../configs/storage";
 import { UseData } from "../../context/UseQuestions";
+import { CompleteChallengeProps } from "../../dtos/storage/finishedDTO";
 
 import "./styles.css";
 
 const Result = () => {
+  const [storageChallenges, setStorageChallenges] = useState<CompleteChallengeProps[]>(() => {
+    const storageChallenges = localStorage.getItem(COLLECTION_CHALLENGES);
+
+    if (storageChallenges) {
+      console.log(JSON.parse(storageChallenges));
+      return JSON.parse(storageChallenges);
+    }
+
+    return [];
+  });
+
   const history = useHistory();
 
   const { context } = UseData();
-  const { amount, allQuestions, pick, correctAnswers, handleResetValues } = context;
+  const { amount, allQuestions, pick, correctAnswers, handleResetValues } =
+    context;
 
-  const handleFinishedChallenge = () => {
+  useEffect(() => {
     const date = new Date();
     const data = {
       amount,
       allQuestions,
       pick,
       correctAnswers,
-      date: date.toLocaleString()
-    }
+      date: date.toLocaleString(),
+    };
 
-    localStorage.setItem(COLLECTION_CHALLENGES, JSON.stringify(data))
+    setStorageChallenges((prev) => [...prev, data]);
+  }, [])
 
-    handleResetValues()
-    history.replace('/')
-  }
-
+  const handleFinishedChallenge = () => {
+    
+    localStorage.setItem(
+      COLLECTION_CHALLENGES,
+      JSON.stringify(storageChallenges)
+    );
+    handleResetValues();
+    history.replace("/");
+  };
 
   return (
     <div className="result-container">
@@ -50,7 +69,7 @@ const Result = () => {
         })}
       </div>
 
-        <button onClick={handleFinishedChallenge}>Save</button>
+      <button onClick={handleFinishedChallenge}>Save</button>
     </div>
   );
 };
