@@ -1,0 +1,24 @@
+.result-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin: 4rem 0;
+}
+
+.result-container > h1 {
+    font-size: 6rem;
+    font-family: 'Lobster', sans-serif;
+
+    color: var(--blue);
+}
+
+.result-container > p {
+    font-size: 1.6rem;
+    font-weight: 300;
+
+    margin-bottom: 2rem;
+    
+    color: var(--dark-gray);
+}

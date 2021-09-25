@@ -11,7 +11,7 @@ import validateAnswers from "../helpers/validateAnswers";
 type ContextQuestionsProps = {
   amount: number;
   check: AnswersProps;
-  pick: AnswersProps[]
+  pick: AnswersProps[];
   currentQuestion: number;
   challenge: ChallengeProps[];
   correctAnswers: number;
@@ -20,6 +20,7 @@ type ContextQuestionsProps = {
   handleSetAmount: (e: number) => void;
   handleCheckbox: (e: AnswersProps) => void;
   handleQuestion: () => void;
+  handleResetValues: () => void;
 };
 
 const UseQuestionsContext = createContext<ContextQuestionsProps>(
@@ -30,7 +31,7 @@ export const UseQuestionsProvider = ({ children }: ChildrenProps) => {
   const [amount, setAmount] = useState<number>(0);
   const [currentQuestion, setCurrentQuestion] = useState<number>(-1);
   const [showChallenge, setShowChallenge] = useState<QuestionsProps>({} as QuestionsProps);
-  const [correctAnswers, setCorrectAnswers] = useState<number>(0)
+  const [correctAnswers, setCorrectAnswers] = useState<number>(0);
   const [allQuestions, setAllQuestions] = useState<QuestionsProps[]>([]);
   const [challenge, setChallenge] = useState<ChallengeProps[]>([]);
   const [check, setCheck] = useState<AnswersProps>({} as AnswersProps);
@@ -77,7 +78,6 @@ export const UseQuestionsProvider = ({ children }: ChildrenProps) => {
     if (!amount) {
       return;
     }
-
     setChallenge(challengeAPI);
     setCurrentQuestion(0);
   }, [amount]);
@@ -88,7 +88,9 @@ export const UseQuestionsProvider = ({ children }: ChildrenProps) => {
     }
 
     const currentData = challenge[currentQuestion];
-    const answers = currentData.incorrect_answers.concat(currentData.correct_answer);
+    const answers = currentData.incorrect_answers.concat(
+      currentData.correct_answer
+    );
 
     const correctAnswer = answers.map((data) => {
       if (data === currentData.correct_answer) {
@@ -110,36 +112,26 @@ export const UseQuestionsProvider = ({ children }: ChildrenProps) => {
     };
 
     setShowChallenge(question);
-    setAllQuestions(prev => [...prev, question])
+    setAllQuestions((prev) => [...prev, question]);
   }, [currentQuestion]);
 
   useEffect(() => {
     if (currentQuestion < 0) {
       return;
     }
+    let count = 0;
 
     const newArray = pick;
     newArray[currentQuestion] = check;
 
-    setPick(newArray);
-  }, [check]);
-
-  useEffect(() => {
-    // if(pick.length <= 0){
-    //   return
-    // }
-
-    let count = 0
-    
-    console.log("passou");
-    pick.map(answer => {
-      if(answer.correct === true) {
-        count++
+    newArray.map((answer) => {
+      if (answer.correct === true) {
+        count++;
       }
-    })
-    setCorrectAnswers(count)
-  }, [pick])
-
+    });
+    setPick(newArray);
+    setCorrectAnswers(count);
+  }, [check]);
 
   const handleSetAmount = (data: number) => {
     if (!data) {
@@ -150,14 +142,13 @@ export const UseQuestionsProvider = ({ children }: ChildrenProps) => {
 
   const handleCheckbox = (answer: AnswersProps) => {
     if (check.answer === answer.answer) {
-      setCheck({} as AnswersProps);
       return;
     }
     setCheck(answer);
   };
 
   const handleQuestion = () => {
-    if (!check || currentQuestion + 1 >= amount) {
+    if (Object.keys(check).length <= 0 || currentQuestion + 1 > amount) {
       setCheck({} as AnswersProps);
       return;
     }
@@ -165,6 +156,16 @@ export const UseQuestionsProvider = ({ children }: ChildrenProps) => {
     setCheck({} as AnswersProps);
   };
 
+  const handleResetValues = () => {
+    setAmount(0);
+    setCheck({} as AnswersProps);
+    setPick([]);
+    setChallenge([]);
+    setAllQuestions([]);
+    setShowChallenge({} as QuestionsProps);
+    setCurrentQuestion(-1);
+    setCorrectAnswers(0);
+  };
 
   return (
     <UseQuestionsContext.Provider
@@ -180,6 +181,7 @@ export const UseQuestionsProvider = ({ children }: ChildrenProps) => {
         handleSetAmount,
         handleCheckbox,
         handleQuestion,
+        handleResetValues,
       }}
     >
       {children}

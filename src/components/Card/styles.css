@@ -38,8 +38,10 @@
 }
 
 .input-question > svg {
-  font-size: 1.7rem;
+  font-size: 2rem;
   margin-left: 1rem;
+
+  color: var(--dark-gray);
 }
 
 #correct {

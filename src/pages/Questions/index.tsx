@@ -13,7 +13,9 @@ const Questions = () => {
   const history = useHistory();
 
   const handleFinished = () => {
-    handleQuestion();
+    if(Object.keys(check).length <= 0) {
+      return
+    }
 
     history.push("/result");
   };
@@ -33,14 +35,14 @@ const Questions = () => {
           <div className="next">
             {currentQuestion + 1 >= amount ? (
               <button
-                className={!check ? "disabled" : ""}
+                className={Object.keys(check).length <= 0 ? "disabled" : ""}
                 onClick={handleFinished}
               >
                 Finished
               </button>
             ) : (
               <button
-                className={!check ? "disabled" : ""}
+                className={Object.keys(check).length <= 0 ? "disabled" : ""}
                 onClick={() => handleQuestion()}
               >
                 Next Question
