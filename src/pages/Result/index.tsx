@@ -1,75 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import React from "react";
+import { useParams } from "react-router";
+
+import UseStorage from "../../hooks/useStorage";
+
+import ArrowGoBack from "../../components/ArrowGoBack";
 import Card from "../../components/Card";
-import { COLLECTION_CHALLENGES } from "../../configs/storage";
-import { UseData } from "../../context/UseQuestions";
-import { CompleteChallengeProps } from "../../dtos/storage/finishedDTO";
 
 import "./styles.css";
 
+type IdProps = {
+  id: string;
+};
+
 const Result = () => {
-  const [storageChallenges, setStorageChallenges] = useState<CompleteChallengeProps[]>(() => {
-    const storageChallenges = localStorage.getItem(COLLECTION_CHALLENGES);
-
-    if (storageChallenges) {
-      console.log(JSON.parse(storageChallenges));
-      return JSON.parse(storageChallenges);
-    }
-
-    return [];
-  });
-
-  const history = useHistory();
-
-  const { context } = UseData();
-  const { amount, allQuestions, pick, correctAnswers, handleResetValues } =
-    context;
-
-  useEffect(() => {
-    const date = new Date();
-    const data = {
-      amount,
-      allQuestions,
-      pick,
-      correctAnswers,
-      date: date.toLocaleString(),
-    };
-
-    setStorageChallenges((prev) => [...prev, data]);
-  }, [])
-
-  const handleFinishedChallenge = () => {
-    
-    localStorage.setItem(
-      COLLECTION_CHALLENGES,
-      JSON.stringify(storageChallenges)
-    );
-    handleResetValues();
-    history.replace("/");
-  };
+  const { id }: IdProps = useParams();
+  const findChallenge = UseStorage.getById(id);
 
   return (
     <div className="result-container">
+      <ArrowGoBack link="/finished" />
+      
       <h1>Result</h1>
-      <p>
-        You have answered correct {correctAnswers} of {amount} question
-        {amount > 1 ? "s" : ""}
-      </p>
-      <div>
-        {allQuestions.map((challenge, index) => {
-          return (
-            <Card
-              key={index}
-              position={index}
-              challenge={challenge}
-              choose={pick[index]}
-              readOnly
-            />
-          );
-        })}
-      </div>
-
-      <button onClick={handleFinishedChallenge}>Save</button>
+      {findChallenge?.amount && (
+        <>
+          <p>
+            You have answered correct {findChallenge.correctAnswers} of{" "}
+            {findChallenge.amount} question
+            {findChallenge.amount > 1 ? "s" : ""}
+          </p>
+          <div>
+            {findChallenge.allQuestions.map((challenge, index) => {
+              return (
+                <Card
+                  key={index}
+                  position={index}
+                  challenge={challenge}
+                  choose={findChallenge.pick[index]}
+                  readOnly
+                />
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,0 +1,10 @@
+.back {
+  position: absolute;
+  left: 10vw;
+  top: 3vw;
+}
+
+.back > a > svg {
+  font-size: 4rem;
+  color: var(--dark-gray);
+}

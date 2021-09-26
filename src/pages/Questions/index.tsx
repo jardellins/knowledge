@@ -1,23 +1,46 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 import { useHistory } from "react-router";
 
 import { UseData } from "../../context/UseQuestions";
 import Card from "../../components/Card";
 
 import "./styles.css";
+import UseStorage from "../../hooks/useStorage";
+import { CompleteChallengeProps } from "../../dtos/storage/finishedDTO";
 
 const Questions = () => {
   const { context } = UseData();
-  const { amount, showChallenge, currentQuestion, check, handleQuestion } = context;
+  const {
+    amount,
+    showChallenge,
+    currentQuestion,
+    check,
+    handleQuestion,
+    allQuestions,
+    pick,
+    correctAnswers,
+  } = context;
 
   const history = useHistory();
 
   const handleFinished = () => {
-    if(Object.keys(check).length <= 0) {
-      return
+    if (Object.keys(check).length <= 0) {
+      return;
     }
 
-    history.push("/result");
+    const date = new Date();
+    const data: CompleteChallengeProps = {
+      id: uuidv4(),
+      amount,
+      allQuestions,
+      pick,
+      correctAnswers,
+      date: date.toLocaleString(),
+    };
+
+    UseStorage.setStorage(data);
+    history.push(`/result/${data.id}`);
   };
 
   return (
