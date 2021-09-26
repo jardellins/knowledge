@@ -6,7 +6,9 @@ import {
 } from "../dtos/answered/questionAnsweredDTO";
 
 import { ChildrenProps } from "../dtos/questions/childrenDTO";
-import validateAnswers from "../helpers/validateAnswers";
+import formatQuestion from "../helpers/formatQuestion";
+import validateAnswers from "../helpers/formatQuestion";
+import getQuestions from "../hooks/getQuestions";
 
 type ContextQuestionsProps = {
   amount: number;
@@ -37,49 +39,18 @@ export const UseQuestionsProvider = ({ children }: ChildrenProps) => {
   const [check, setCheck] = useState<AnswersProps>({} as AnswersProps);
   const [pick, setPick] = useState<AnswersProps[]>([]);
 
-  const challengeAPI: ChallengeProps[] = [
-    {
-      category: "Geography",
-      type: "boolean",
-      difficulty: "medium",
-      question:
-        "The longest place named in the United States is Lake Chargoggagoggmanchauggagoggchaubunagungamaugg, located near Webster, MA.",
-      correct_answer: "True",
-      incorrect_answers: ["False"],
-    },
-    {
-      category: "Entertainment: Film",
-      type: "multiple",
-      difficulty: "medium",
-      question:
-        "Which animated film did Steven Lisberger direct in 1980 before going on to direct Tron?",
-      correct_answer: "Animalympics",
-      incorrect_answers: [
-        "The Fox and the Hound",
-        "The Black Cauldron",
-        "The Great Mouse Detecive",
-      ],
-    },
-    {
-      category: "Entertainment: Video Games",
-      type: "multiple",
-      difficulty: "medium",
-      question: "What is the mod &quot;Cry of Fear&quot; based off of?",
-      correct_answer: "Half-Life",
-      incorrect_answers: [
-        "Counter Strike: Source",
-        "Half-Life 2",
-        "It&#039;s a stand alone game, not a mod",
-      ],
-    },
-  ];
-
   useEffect(() => {
     if (!amount) {
       return;
     }
-    setChallenge(challengeAPI);
-    setCurrentQuestion(0);
+
+    const getData = async () => {
+      const challengeAPI = await getQuestions.amountQuestions(String(amount));
+      setChallenge(challengeAPI);
+      setCurrentQuestion(0);
+    };
+
+    getData();
   }, [amount]);
 
   useEffect(() => {
@@ -88,28 +59,7 @@ export const UseQuestionsProvider = ({ children }: ChildrenProps) => {
     }
 
     const currentData = challenge[currentQuestion];
-    const answers = currentData.incorrect_answers.concat(
-      currentData.correct_answer
-    );
-
-    const correctAnswer = answers.map((data) => {
-      if (data === currentData.correct_answer) {
-        return {
-          answer: data,
-          correct: true,
-        };
-      } else {
-        return {
-          answer: data,
-          correct: false,
-        };
-      }
-    });
-
-    const question = {
-      question: currentData.question,
-      answers: correctAnswer,
-    };
+    const question = formatQuestion(currentData);
 
     setShowChallenge(question);
     setAllQuestions((prev) => [...prev, question]);

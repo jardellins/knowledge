@@ -16,17 +16,9 @@ type CardProps = {
   check?: AnswersProps;
   readOnly?: boolean;
   correct?: boolean;
-  onChange?: (e: any) => void;
 };
 
-const Card = ({
-  position,
-  challenge,
-  check,
-  choose,
-  onChange,
-  readOnly,
-}: CardProps) => {
+const Card = ({ position, challenge, check, choose, readOnly }: CardProps) => {
   const { context } = UseData();
   const { handleCheckbox } = context;
 
@@ -51,7 +43,11 @@ const Card = ({
               {choose ? (
                 <>
                   <label
-                    id={question.correct === true ? "correct" : ""}
+                    id={
+                      question.correct === true
+                        ? "correct"
+                        : choose.answer === question.answer ? "wrong" : ""
+                    }
                     className={
                       question.answer === choose.answer ? "fadeUp" : "fadeOut"
                     }

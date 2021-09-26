@@ -1,19 +1,20 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { ArrowForwardIos } from "@material-ui/icons";
 
-import finishedImg from "../../assets/images/finished.svg";
-import "./styles.css";
-import { Link } from "react-router-dom";
 import UseStorage from "../../hooks/useStorage";
 import ArrowGoBack from "../../components/ArrowGoBack";
+import finishedImg from "../../assets/images/finished.svg";
+
+import "./styles.css";
 
 const Finished = () => {
-  const allChallengesFinished = UseStorage.getAllStorage()
+  const allChallengesFinished = UseStorage.getAllStorage();
 
   return (
     <div className="challenges-container">
       <ArrowGoBack link="/" />
-      
+
       <div className="content-title">
         <h1>Complete challenges</h1>
       </div>
@@ -23,7 +24,7 @@ const Finished = () => {
       </div>
 
       <div className="card-container">
-        {allChallengesFinished.length > 0 ?
+        {allChallengesFinished.length > 0 ? (
           allChallengesFinished.map((challenges, index) => {
             return (
               <div className="card-complete">
@@ -41,11 +42,11 @@ const Finished = () => {
               </div>
             );
           })
-          :
+        ) : (
           <div className="card-complete">
             <h1>Finish your first challenge before!</h1>
           </div>
-        }
+        )}
       </div>
     </div>
   );

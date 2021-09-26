@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router";
 
 import UseStorage from "../../hooks/useStorage";
@@ -16,10 +16,14 @@ const Result = () => {
   const { id }: IdProps = useParams();
   const findChallenge = UseStorage.getById(id);
 
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
   return (
     <div className="result-container">
       <ArrowGoBack link="/finished" />
-      
+
       <h1>Result</h1>
       {findChallenge?.amount && (
         <>

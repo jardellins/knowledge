@@ -20,6 +20,7 @@ const Questions = () => {
     allQuestions,
     pick,
     correctAnswers,
+    handleResetValues,
   } = context;
 
   const history = useHistory();
@@ -40,6 +41,7 @@ const Questions = () => {
     };
 
     UseStorage.setStorage(data);
+    handleResetValues();
     history.push(`/result/${data.id}`);
   };
 

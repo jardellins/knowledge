@@ -12,6 +12,10 @@ header > div {
   justify-content: flex-end;
 }
 
+header > div > a:hover {
+  color: var(--green);
+}
+
 .container {
   display: flex;
   align-items: center;

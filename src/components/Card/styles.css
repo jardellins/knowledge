@@ -50,6 +50,11 @@
   font-size: 1.7rem;
 }
 
+#wrong {
+  color: var(--wrong-answer);
+  opacity: 1;
+}
+
 .fadeUp {
   font-size: 1.7rem;
 }

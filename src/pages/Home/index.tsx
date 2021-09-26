@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { FormatListNumbered } from "@material-ui/icons";
 
@@ -9,18 +9,22 @@ import "./styles.css";
 
 const Home = () => {
   const { context } = UseData();
-  const { handleSetAmount } = context;
+  const { handleSetAmount, handleResetValues } = context;
 
   const [getAmount, setGetAmount] = useState<number>();
 
   const history = useHistory();
 
+  useEffect(() => {
+    handleResetValues();
+  }, []);
+
   const handleChallenge = () => {
     if (!getAmount) {
       return;
     }
-    handleSetAmount(getAmount);
 
+    handleSetAmount(getAmount);
     history.push("/questions");
   };
 
