@@ -26,6 +26,9 @@
 }
 
 .input-question {
+  display: flex;
+  align-items: center;
+  
   padding: 1rem 0;
 }
 

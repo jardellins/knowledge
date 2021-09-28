@@ -1,46 +1,75 @@
-# Getting Started with Create React App
+<h1 align="center">
+    Knowledge Challenges
+</h1>
+<p align="center">Challenge yourself in this nice game of general knowledge.</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+- <a href="#sobre">About</a> 
+- <a href="#tecnologias">Technologies</a>
+- <a href="#overview">Overview</a>
+- <a href="#iniciando">Starting</a>
 
-In the project directory, you can run:
 
-### `yarn start`
+<br/>
+<a id="sobre"></a>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## :scroll: About
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+In this application you will be able to answer many questions as you want to. Feel free to challenge yourself and review the answers how many times you want to (util you clean up the cache from your browser haha). 
 
-### `yarn test`
+<br/>
+<a id="tecnologias"></a>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## :wrench: Technologies
 
-### `yarn build`
+This app was developed use this tools:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [React](https://pt-br.reactjs.org/)
+- [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
+- {Local Storage}(https://developer.mozilla.org/pt-BR/docs/Web/API/Window/localStorage)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<br/>
+<a id="overview"></a>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Sneak pick a little bit of the application
 
-### `yarn eject`
+<p align="center" >
+    
+![image](https://user-images.githubusercontent.com/44972197/135179551-17644e0c-c5d5-4b4b-ab4a-6a11d39afe47.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![image](https://user-images.githubusercontent.com/44972197/135179618-e032b5a0-989a-4d86-84e9-58325edea973.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+![image](https://user-images.githubusercontent.com/44972197/135179670-76927f78-1843-4483-ba65-aa4728d627ac.png)
+    
+<br/>
+<a id="iniciando"></a>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Starting the application
 
-## Learn More
+Follow this steps to get start the application and enjoy play with it.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Download
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```sh
+
+https://github.com/jardellins/knowledge.git
+
+```
+
+## Start
+
+Change directory of the app
+
+```sh
+
+cd knowledge
+
+```
+Start with yarn
+
+```sh
+yarn install
+
+yarn start
+```

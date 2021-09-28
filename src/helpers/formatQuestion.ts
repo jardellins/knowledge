@@ -19,7 +19,7 @@ const formatQuestion = (challenge: ChallengeProps) => {
 
   const question = {
     question: challenge.question,
-    answers: correctAnswer,
+    answers: correctAnswer.sort(() => Math.random() - 0.5),
   };
 
   return question;

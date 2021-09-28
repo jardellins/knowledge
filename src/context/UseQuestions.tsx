@@ -7,7 +7,6 @@ import {
 
 import { ChildrenProps } from "../dtos/questions/childrenDTO";
 import formatQuestion from "../helpers/formatQuestion";
-import validateAnswers from "../helpers/formatQuestion";
 import getQuestions from "../hooks/getQuestions";
 
 type ContextQuestionsProps = {
