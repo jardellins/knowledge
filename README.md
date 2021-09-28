@@ -26,7 +26,7 @@ This app was developed use this tools:
 
 - [React](https://pt-br.reactjs.org/)
 - [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
-- {Local Storage}(https://developer.mozilla.org/pt-BR/docs/Web/API/Window/localStorage)
+- [Local Storage](https://developer.mozilla.org/pt-BR/docs/Web/API/Window/localStorage)
 
 <br/>
 <a id="overview"></a>
