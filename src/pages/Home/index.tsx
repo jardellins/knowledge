@@ -12,6 +12,7 @@ const Home = () => {
   const { handleSetAmount, handleResetValues } = context;
 
   const [getAmount, setGetAmount] = useState<number>();
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const history = useHistory();
 
@@ -26,6 +27,10 @@ const Home = () => {
 
     handleSetAmount(getAmount);
     history.push("/questions");
+  };
+
+  const handleModal = () => {
+    setShowModal(true);
   };
 
   return (
@@ -68,7 +73,7 @@ const Home = () => {
                   <button
                     disabled={!getAmount}
                     className={!getAmount ? "disabled" : ""}
-                    onClick={handleChallenge}
+                    onClick={handleModal}
                   >
                     Confirm
                   </button>
@@ -82,6 +87,25 @@ const Home = () => {
           </div>
         </div>
       </main>
+
+      {showModal && (
+        <div className="modal">
+          <div className="content-modal">
+            <p>Do you want to start the challenge now?</p>
+            <div className="button-container">
+              <button
+                className="cancel-button"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button className="start-button" onClick={handleChallenge}>
+                Start
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
