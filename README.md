@@ -15,7 +15,7 @@
 
 ## :scroll: About
 
-In this application you will be able to answer many questions as you want to. Feel free to challenge yourself and review the answers how many times you want to (util you clean up the cache from your browser haha). 
+In this application you will be able to answer many questions as you want to. Feel free to challenge yourself and review the answers as much do you want to (util you clean up the cache from your browser :sweat_smile:). 
 
 <br/>
 <a id="tecnologias"></a>
